@@ -1,0 +1,35 @@
+[
+  {
+    "name": "Max Steiner",
+    "country": "Germany",
+    "language": "German",
+    "role": "Trader and educator",
+    "bio": "Publishes FX market breakdowns for German-speaking retail traders and runs a paid Discord community.",
+    "platforms": "YouTube, Telegram, Discord",
+    "followers": 18500,
+    "offers": "Course, premium signals, mentorship",
+    "notes": "Active community, affiliate-friendly, professional tone"
+  },
+  {
+    "name": "Lena Hofer",
+    "country": "Austria",
+    "language": "German",
+    "role": "Community owner",
+    "bio": "Hosts a local trading meetup and free Telegram group focused on indices and commodities.",
+    "platforms": "Telegram, Instagram",
+    "followers": 4200,
+    "offers": "Community, webinar",
+    "notes": "Engaged audience but no clear paid tier yet"
+  },
+  {
+    "name": "Carlos Trading Club",
+    "country": "Switzerland",
+    "language": "Spanish",
+    "role": "Signal provider",
+    "bio": "Trading en español con señales VIP para forex y crypto.",
+    "platforms": "Telegram, WhatsApp",
+    "followers": 29000,
+    "offers": "VIP signals, subscription",
+    "notes": "Spanish-only audience"
+  }
+]

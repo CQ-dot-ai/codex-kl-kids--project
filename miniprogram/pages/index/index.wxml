@@ -1,0 +1,136 @@
+<view class="page">
+  <view class="hero">
+    <view class="eyebrow">吉隆坡亲子周末</view>
+    <view class="title">今天带娃去哪儿</view>
+    <view class="intro">少纠结，直接按年龄、天气、交通和家长省心程度选。</view>
+    <view class="pick" wx:if="{{activePlace}}">
+      <view class="pick-label">今日优先看</view>
+      <view class="pick-name">{{activePlace.name}}</view>
+      <view class="pick-note">{{activePlace.transportLabel}} · {{activePlace.recommendedTime}} · 轻易度 {{activePlace.parentEase}}/5</view>
+    </view>
+    <view class="hero-actions">
+      <button class="share-btn" open-type="share">分享给家长朋友</button>
+      <button class="map-primary" wx:if="{{activePlace}}" data-id="{{activePlace.id}}" bindtap="openWechatMap">先看地图</button>
+    </view>
+  </view>
+
+  <view class="filters">
+    <picker mode="selector" range="{{ageOptions}}" range-key="label" value="{{selectedIndex.age}}" data-type="age" bindchange="onPickerChange">
+      <view class="filter-item">
+        <text>年龄</text>
+        <text>{{ageOptions[selectedIndex.age].label}}</text>
+      </view>
+    </picker>
+    <picker mode="selector" range="{{transportOptions}}" range-key="label" value="{{selectedIndex.transport}}" data-type="transport" bindchange="onPickerChange">
+      <view class="filter-item">
+        <text>交通</text>
+        <text>{{transportOptions[selectedIndex.transport].label}}</text>
+      </view>
+    </picker>
+    <picker mode="selector" range="{{weatherOptions}}" range-key="label" value="{{selectedIndex.weather}}" data-type="weather" bindchange="onPickerChange">
+      <view class="filter-item">
+        <text>天气</text>
+        <text>{{weatherOptions[selectedIndex.weather].label}}</text>
+      </view>
+    </picker>
+    <picker mode="selector" range="{{durationOptions}}" range-key="label" value="{{selectedIndex.duration}}" data-type="duration" bindchange="onPickerChange">
+      <view class="filter-item">
+        <text>时长</text>
+        <text>{{durationOptions[selectedIndex.duration].label}}</text>
+      </view>
+    </picker>
+  </view>
+
+  <view class="stats">
+    <view>
+      <text>{{stats.placeCount}}</text>
+      <text>亲子去处</text>
+    </view>
+    <view>
+      <text>{{stats.eventCount}}</text>
+      <text>可看活动</text>
+    </view>
+    <view>
+      <text>{{stats.easyCount}}</text>
+      <text>家长友好</text>
+    </view>
+    <view>
+      <text>{{stats.rainCount}}</text>
+      <text>雨天备选</text>
+    </view>
+  </view>
+
+  <view class="reminder-card">
+    <view>
+      <view class="reminder-title">周五晚自动提醒</view>
+      <view class="reminder-text">{{reminderStatus}}</view>
+      <view class="reminder-hint">{{weatherHint}}</view>
+    </view>
+    <button class="reminder-btn" bindtap="subscribeFriday">开启</button>
+  </view>
+
+  <view class="section-head">
+    <view>
+      <view class="section-title">带娃好去处</view>
+      <view class="section-meta">当前显示 {{visiblePlaces.length}} 个</view>
+    </view>
+    <button class="plain-btn" bindtap="resetFilters">重置</button>
+  </view>
+
+  <view class="empty" wx:if="{{!visiblePlaces.length}}">当前条件下没有合适地点，放宽一个筛选试试。</view>
+
+  <view class="place-card" wx:for="{{visiblePlaces}}" wx:key="id">
+    <view class="card-top">
+      <view>
+        <view class="area">{{item.area}}</view>
+        <view class="place-name">{{item.name}}</view>
+      </view>
+      <view class="ease">{{item.parentEase}}/5</view>
+    </view>
+    <view class="summary">{{item.summary}}</view>
+    <view class="metrics">
+      <view>
+        <text>轻易度</text>
+        <text>{{item.parentEase}}/5</text>
+      </view>
+      <view>
+        <text>孩子会玩</text>
+        <text>{{item.kidFun}}/5</text>
+      </view>
+      <view>
+        <text>建议多久</text>
+        <text>{{item.recommendedTime}}</text>
+      </view>
+    </view>
+    <view class="decision">
+      <view><text>{{item.transportLabel}}</text>{{item.transportNote}}</view>
+      <view><text>家长提示</text>{{item.parentNote}}</view>
+    </view>
+    <view class="tags">
+      <text wx:for="{{item.tags}}" wx:key="*this">{{item}}</text>
+    </view>
+    <view class="map-actions">
+      <button class="solid-map" data-id="{{item.id}}" bindtap="openWechatMap">微信地图</button>
+      <button class="copy-btn" data-url="{{item.wazeUrl}}" bindtap="copyMapLink">复制 Waze</button>
+      <button class="copy-btn" data-url="{{item.googleMapUrl}}" bindtap="copyMapLink">复制 Google</button>
+    </view>
+    <button class="source-btn" data-url="{{item.sourceUrl}}" bindtap="copySource">复制来源链接</button>
+  </view>
+
+  <view class="section-head event-head">
+    <view>
+      <view class="section-title">实时活动</view>
+      <view class="section-meta">{{syncStatus}}</view>
+    </view>
+    <button class="plain-btn" bindtap="syncEvents">同步</button>
+  </view>
+
+  <view class="event-card" wx:for="{{events}}" wx:key="id">
+    <view class="event-status">{{item.statusLabel}}</view>
+    <view class="event-title">{{item.title}}</view>
+    <view class="event-line">{{item.dateText}}</view>
+    <view class="event-line">{{item.venue}}</view>
+    <view class="event-note">{{item.ageText}} · {{item.fitNote}}</view>
+    <button class="copy-btn" data-url="{{item.sourceUrl}}" bindtap="copySource">复制活动来源</button>
+  </view>
+</view>

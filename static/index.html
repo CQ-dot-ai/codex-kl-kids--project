@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KL 亲子周末雷达</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Kuala Lumpur with kids</p>
+          <h1>KL 亲子周末雷达</h1>
+          <p class="intro">
+            把“孩子会不会玩疯、家长会不会崩溃、到底开车还是地铁”放在同一个页面里判断。
+          </p>
+        </div>
+        <div class="today-card" aria-live="polite">
+          <span id="today-label">今天</span>
+          <strong id="best-pick">正在加载推荐...</strong>
+          <small id="best-reason"></small>
+        </div>
+      </section>
+
+      <section class="toolbar" aria-label="筛选条件">
+        <label>
+          孩子年龄
+          <select id="age-filter">
+            <option value="all">全部年龄</option>
+            <option value="0-3">0-3 岁</option>
+            <option value="4-6">4-6 岁</option>
+            <option value="7-10">7-10 岁</option>
+            <option value="11+">11+ 岁</option>
+          </select>
+        </label>
+        <label>
+          出行方式
+          <select id="transport-filter">
+            <option value="all">都可以</option>
+            <option value="train">优先地铁</option>
+            <option value="car">优先开车</option>
+          </select>
+        </label>
+        <label>
+          天气
+          <select id="weather-filter">
+            <option value="all">不限制</option>
+            <option value="rain">下雨也能去</option>
+            <option value="hot">怕晒怕热</option>
+          </select>
+        </label>
+        <label>
+          可玩时长
+          <select id="duration-filter">
+            <option value="all">不限</option>
+            <option value="short">2 小时内</option>
+            <option value="half">半天</option>
+            <option value="full">一整天</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="quick-stats" aria-label="概览">
+        <div>
+          <span id="place-count">0</span>
+          <small>个亲子去处</small>
+        </div>
+        <div>
+          <span id="event-count">0</span>
+          <small>个同步活动</small>
+        </div>
+        <div>
+          <span id="easy-count">0</span>
+          <small>个家长友好</small>
+        </div>
+        <div>
+          <span id="rain-count">0</span>
+          <small>个雨天备选</small>
+        </div>
+      </section>
+
+      <section class="section-grid">
+        <div class="main-column">
+          <div class="section-head">
+            <div>
+              <h2>带娃好去处</h2>
+              <p id="result-note">按当前筛选排序。</p>
+            </div>
+            <button id="reset-filters" type="button">重置</button>
+          </div>
+          <div id="places-grid" class="places-grid"></div>
+        </div>
+
+        <aside class="side-column">
+          <div class="side-panel">
+            <div class="section-head compact">
+              <div>
+                <h2>实时活动</h2>
+                <p id="sync-status">读取本地活动源。</p>
+              </div>
+              <button id="sync-events" type="button">同步</button>
+            </div>
+            <div id="events-list" class="events-list"></div>
+          </div>
+
+          <div class="side-panel">
+            <h2>第一版判断标准</h2>
+            <div class="score-list">
+              <p><strong>轻易度</strong><span>停车/电梯/厕所/餐饮/排队压力</span></p>
+              <p><strong>孩子吸引力</strong><span>互动、动物、动手、运动量</span></p>
+              <p><strong>家长成本</strong><span>是否能坐、是否有空调、是否好撤退</span></p>
+              <p><strong>交通建议</strong><span>门到门优先级，而不是地图距离</span></p>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>

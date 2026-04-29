@@ -1,0 +1,206 @@
+[
+  {
+    "id": "2449cf41-20f3-49f7-a752-909dcf3a001c",
+    "name": "A1 Trading",
+    "platform": "Instagram",
+    "profile_url": "https://www.instagram.com/a1trading",
+    "follower_count": "17800",
+    "country": "Germany",
+    "language": "German",
+    "signals": {
+      "telegram": false,
+      "whatsapp": false,
+      "linktree": false,
+      "website": true,
+      "paid_group": false,
+      "coaching": false,
+      "signals": false
+    },
+    "created_at": "2026-04-24T07:22:04.683052+00:00",
+    "review": {
+      "quality": "B",
+      "score": 59,
+      "status": "reviewed",
+      "monetization_signals": [],
+      "reasons": [
+        "DACH market fit",
+        "Funnel signal: Standalone website",
+        "Relevant platform: Instagram",
+        "Solid visible audience",
+        "Usable language fit"
+      ],
+      "risks": [],
+      "outreach": "Hi A1 Trading, your Instagram presence looks relevant for DACH trading audiences, especially given the setup around Standalone website. We keep outreach fairly selective, but I thought it may be worth a brief introduction if partnerships are something you consider."
+    }
+  },
+  {
+    "id": "ea671f54-d80f-47a7-b538-de4780d682f1",
+    "name": "Le-Loup-de-Zurich",
+    "platform": "YouTube",
+    "profile_url": "https://www.youtube.com/@TheWolfOfZurich",
+    "follower_count": "124000",
+    "country": "Switzerland",
+    "language": "German / English",
+    "signals": {
+      "telegram": true,
+      "whatsapp": false,
+      "linktree": false,
+      "website": false,
+      "paid_group": false,
+      "coaching": false,
+      "signals": false
+    },
+    "created_at": "2026-04-24T07:23:04.198886+00:00",
+    "review": {
+      "quality": "A",
+      "score": 74,
+      "status": "reviewed",
+      "monetization_signals": [],
+      "reasons": [
+        "DACH market fit",
+        "Funnel signal: Telegram funnel",
+        "Large visible audience",
+        "Relevant platform: YouTube",
+        "Usable language fit"
+      ],
+      "risks": [],
+      "outreach": "Hi Le-Loup-de-Zurich, I came across your YouTube profile and noticed a well-structured audience funnel around Telegram funnel. We work selectively with DACH-facing trading partners and I think there could be a sensible fit for a measured CFD conversation. If useful, I can share a short overview."
+    }
+  },
+  {
+    "id": "5268e593-9703-4daf-b88b-78bcb031dacc",
+    "name": "Sebastian Schmidt",
+    "platform": "Other",
+    "profile_url": "https://www.mql5.com/en/users/surtyr",
+    "follower_count": "3000",
+    "country": "Germany",
+    "language": "German",
+    "signals": {
+      "telegram": true,
+      "whatsapp": false,
+      "linktree": false,
+      "website": false,
+      "paid_group": false,
+      "coaching": false,
+      "signals": false
+    },
+    "created_at": "2026-04-24T07:24:24.870783+00:00",
+    "review": {
+      "quality": "B",
+      "score": 50,
+      "status": "reviewed",
+      "monetization_signals": [],
+      "reasons": [
+        "DACH market fit",
+        "Funnel signal: Telegram funnel",
+        "Niche but usable audience",
+        "Platform present: Other",
+        "Usable language fit"
+      ],
+      "risks": [],
+      "outreach": "Hi Sebastian Schmidt, your Other presence looks relevant for DACH trading audiences, especially given the setup around Telegram funnel. We keep outreach fairly selective, but I thought it may be worth a brief introduction if partnerships are something you consider."
+    }
+  },
+  {
+    "id": "a60b4480-3bf9-43b5-a0e6-2ac1230735dc",
+    "name": "daxtradingclub",
+    "platform": "Instagram",
+    "profile_url": "https://www.instagram.com/daxtradingclub/",
+    "follower_count": "1827",
+    "country": "Germany",
+    "language": "English",
+    "role": "educator",
+    "dach_targeting": true,
+    "signals": {
+      "telegram": false,
+      "whatsapp": false,
+      "linktree": false,
+      "website": true,
+      "email_cta": false,
+      "dm_cta": false,
+      "paid_group": false,
+      "coaching": false,
+      "signals": false,
+      "mentoring": false,
+      "course": true,
+      "private_community": false
+    },
+    "created_at": "2026-04-24T07:38:54.065356+00:00",
+    "review": {
+      "quality": "A",
+      "score": 96,
+      "status": "reviewed",
+      "score_reason": "Strong DACH CFD IB fit: English content with DACH targeting; Follower base sits in the preferred 1k-20k conversion range; Funnel signal: Website.",
+      "monetization_signals": [
+        "Course"
+      ],
+      "reasons": [
+        "English content with DACH targeting",
+        "Follower base sits in the preferred 1k-20k conversion range",
+        "Funnel signal: Website",
+        "Geographic relevance in Germany, Austria, or Switzerland",
+        "Has visible funnel or contact path",
+        "Likely able to bring FTDs or deposits",
+        "Relevant lead type: Educator",
+        "Relevant platform: Instagram",
+        "Shows active monetization"
+      ],
+      "risks": [],
+      "pain_point_hypothesis": "May already monetize audience attention but still need a cleaner route from community trust to funded CFD accounts without making the brand feel overly promotional.",
+      "recommended_bd_angle": "Position the partnership as an additional monetization layer alongside the existing offer, with a restrained DACH trader focus.",
+      "next_action": "Contact",
+      "outreach": "Hi daxtradingclub, I came across your Instagram profile and noticed a well-built audience path around Course. We work with a limited number of DACH-facing trading partners, and I think there may be a sensible CFD IB fit that respects your audience and current setup. If useful, I can share a short overview."
+    }
+  },
+  {
+    "id": "b75859eb-38ff-429e-91bc-c5607f6e54c0",
+    "name": "HelvetiaFx",
+    "platform": "Instagram",
+    "profile_url": "https://www.instagram.com/helvetiafx/",
+    "follower_count": "12100",
+    "country": "Germany",
+    "language": "English",
+    "role": "market_commentary",
+    "dach_targeting": false,
+    "signals": {
+      "telegram": true,
+      "whatsapp": false,
+      "linktree": false,
+      "website": false,
+      "email_cta": false,
+      "dm_cta": false,
+      "paid_group": false,
+      "coaching": false,
+      "signals": false,
+      "mentoring": false,
+      "course": false,
+      "private_community": false
+    },
+    "created_at": "2026-04-24T07:41:18.701320+00:00",
+    "review": {
+      "quality": "C",
+      "score": 47,
+      "status": "reviewed",
+      "score_reason": "Low BD conversion potential: Low-fit account type: Market opinion account; No clear monetization.",
+      "monetization_signals": [],
+      "reasons": [
+        "Follower base sits in the preferred 1k-20k conversion range",
+        "Funnel signal: Telegram funnel",
+        "Geographic relevance in Germany, Austria, or Switzerland",
+        "Has visible funnel or contact path",
+        "Likely able to bring FTDs or deposits",
+        "Relevant platform: Instagram",
+        "Usable language but weaker DACH signal"
+      ],
+      "risks": [
+        "Low-fit account type: Market opinion account",
+        "No clear monetization",
+        "Pure market opinion account"
+      ],
+      "pain_point_hypothesis": "Audience may consume content passively, with weak intent to join a partner-driven trading funnel.",
+      "recommended_bd_angle": "Do not pitch yet; revisit only if the lead develops a stronger funnel or monetization layer.",
+      "next_action": "Skip",
+      "outreach": "Hi HelvetiaFx, I noticed your Instagram profile and wanted to make a light introduction. If partnerships become relevant later on, I’d be happy to share a concise overview."
+    }
+  }
+]

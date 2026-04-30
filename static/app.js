@@ -75,7 +75,40 @@ function transportLabel(place) {
   return "两者都可";
 }
 
+function mapQuery(place) {
+  return place.map_query || place.name;
+}
+
+function googleMapsUrl(place) {
+  const query = encodeURIComponent(`${place.latitude},${place.longitude} ${mapQuery(place)}`);
+  return `https://www.google.com/maps/search/?api=1&query=${query}`;
+}
+
+function wazeUrl(place) {
+  const query = encodeURIComponent(mapQuery(place));
+  return `https://waze.com/ul?ll=${encodeURIComponent(`${place.latitude},${place.longitude}`)}&navigate=yes&q=${query}`;
+}
+
+function placeShareText(place) {
+  return [
+    `这个周末可以带娃去：${place.name}`,
+    `地点：${place.area}`,
+    `适合玩：${place.recommended_time}`,
+    `交通：${transportLabel(place)}，${place.transport_note}`,
+    `家长提示：${place.parent_note}`,
+    `Google Maps：${googleMapsUrl(place)}`,
+    `Waze：${wazeUrl(place)}`,
+  ].join("\n");
+}
+
+function whatsappShareUrl(text) {
+  return `https://wa.me/?text=${encodeURIComponent(text)}`;
+}
+
 function placeCard(place) {
+  const googleUrl = googleMapsUrl(place);
+  const wazeLink = wazeUrl(place);
+  const shareUrl = whatsappShareUrl(placeShareText(place));
   return `
     <article class="place-card">
       <div class="card-top">
@@ -96,6 +129,11 @@ function placeCard(place) {
         <p><strong>家长提示</strong>${escapeHtml(place.parent_note)}</p>
       </div>
       <div class="tags">${tagList(place.tags)}</div>
+      <div class="card-actions">
+        <a class="action primary" href="${escapeHtml(shareUrl)}" target="_blank" rel="noreferrer">发到 WhatsApp</a>
+        <a class="action" href="${escapeHtml(wazeLink)}" target="_blank" rel="noreferrer">Waze</a>
+        <a class="action" href="${escapeHtml(googleUrl)}" target="_blank" rel="noreferrer">Google Maps</a>
+      </div>
       <a class="source-link" href="${escapeHtml(place.source_url)}" target="_blank" rel="noreferrer">查看来源</a>
     </article>
   `;
@@ -141,6 +179,8 @@ function updateBestPick(visible) {
   if (!best) return;
   document.getElementById("best-pick").textContent = best.name;
   document.getElementById("best-reason").textContent = `${transportLabel(best)}，${best.recommended_time}，${best.parent_note}`;
+  document.getElementById("hero-whatsapp").href = whatsappShareUrl(placeShareText(best));
+  document.getElementById("hero-map").href = googleMapsUrl(best);
 }
 
 function render() {
@@ -156,28 +196,35 @@ function render() {
 }
 
 async function loadData() {
-  const [placesResponse, eventsResponse] = await Promise.all([fetch("/api/places"), fetch("/api/events")]);
-  const placesData = await placesResponse.json();
-  const eventsData = await eventsResponse.json();
+  const [placesResponse, eventsResponse] = await Promise.all([
+    fetch("/data/kids_places.json").then((response) => (response.ok ? response : fetch("/api/places"))),
+    fetch("/data/live_events.json").then((response) => (response.ok ? response : fetch("/api/events"))),
+  ]);
+  const rawPlacesData = await placesResponse.json();
+  const rawEventsData = await eventsResponse.json();
+  const placesData = Array.isArray(rawPlacesData) ? { places: rawPlacesData } : rawPlacesData;
+  const eventsData = Array.isArray(rawEventsData) ? { events: rawEventsData } : rawEventsData;
   state.places = placesData.places || [];
   state.events = eventsData.events || [];
-  syncStatus.textContent = eventsData.last_synced_at ? `上次同步：${eventsData.last_synced_at}` : "读取本地活动源。";
+  syncStatus.textContent = eventsData.last_synced_at ? `静态活动数据：${eventsData.last_synced_at}` : "读取静态活动源。";
   render();
 }
 
 async function syncLiveEvents() {
   syncEvents.disabled = true;
-  syncStatus.textContent = "正在同步公开亲子活动源...";
+  syncStatus.textContent = "静态部署版默认不在线抓取，正在尝试本地 API...";
   try {
     const response = await fetch("/api/events/sync", { method: "POST" });
     const data = await response.json();
     if (!response.ok) {
-      syncStatus.textContent = data.error || "同步失败";
+      syncStatus.textContent = data.error || "当前部署不支持在线同步";
       return;
     }
     state.events = data.events || [];
     syncStatus.textContent = `已同步 ${state.events.length} 条，${data.last_synced_at}`;
     render();
+  } catch (error) {
+    syncStatus.textContent = "当前是 WhatsApp 静态版；活动更新需重新发布数据。";
   } finally {
     syncEvents.disabled = false;
   }

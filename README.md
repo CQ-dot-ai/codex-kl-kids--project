@@ -1,6 +1,6 @@
-# KL 亲子周末雷达微信小程序
+# KL 亲子周末雷达
 
-这是一个面向微信使用和分享的 Kuala Lumpur 带娃去处第一版产品。重点不是做普通榜单，而是帮助家长快速判断：
+这是一个面向 WhatsApp 分享、微信小程序和移动网页的 Kuala Lumpur 带娃去处第一版产品。重点不是做普通榜单，而是帮助家长快速判断：
 
 - 适合几岁孩子
 - 带娃轻易度，也就是对家长是否友好
@@ -9,7 +9,32 @@
 - 雨天、炎热天气是否稳定
 - 当前是否有适合带娃参加的活动
 
-## 小程序功能
+## WhatsApp 版本
+
+WhatsApp 不能像微信一样承载“小程序”。更适合的部署方式是：
+
+- 把 [static/index.html](/Users/chenqiang/Documents/New%20project/static/index.html) 部署成 HTTPS 移动网页
+- 家长从 WhatsApp 群、Status 或广播消息点链接进入
+- 页面内每个地点都能一键生成 WhatsApp 推荐文案
+- 开车可直接打开 Waze 或 Google Maps
+
+相关文件：
+
+- [static/index.html](/Users/chenqiang/Documents/New%20project/static/index.html)：WhatsApp 分享版网页
+- [static/app.js](/Users/chenqiang/Documents/New%20project/static/app.js)：生成 WhatsApp / Waze / Google Maps 链接
+- [whatsapp.json](/Users/chenqiang/Documents/New%20project/whatsapp.json)：WhatsApp 部署配置说明
+- [whatsapp_sender.py](/Users/chenqiang/Documents/New%20project/whatsapp_sender.py)：WhatsApp Business Cloud API 模板消息发送示例
+
+推荐部署平台：
+
+- Vercel
+- Netlify
+- Cloudflare Pages
+- GitHub Pages
+
+部署后，把域名替换进 `whatsapp.json` 的 `entry_url`。
+
+## 微信小程序功能
 
 - 亲子地点卡片：轻易度、孩子吸引力、建议时长、交通建议、家长提示
 - 筛选：年龄、出行方式、天气、时长
@@ -75,6 +100,14 @@ http://127.0.0.1:8000
 ## 周五自动推荐
 
 小程序端只能让用户主动授权订阅消息；真正“每周五晚上自动推送”需要云函数或服务端定时任务。
+
+WhatsApp 侧如果要主动给家长发消息，需要 WhatsApp Business Cloud API：
+
+- 家长必须 opt-in
+- 24 小时客服窗口外要使用 Meta 审核通过的 message template
+- 后端在周五晚上 8 点运行推荐逻辑，并调用 Graph API 发模板消息
+
+示例脚本：[whatsapp_sender.py](/Users/chenqiang/Documents/New%20project/whatsapp_sender.py)
 
 已提供云函数骨架：
 

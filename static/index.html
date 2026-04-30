@@ -3,23 +3,30 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>KL 亲子周末雷达</title>
+    <meta name="theme-color" content="#246b54">
+    <meta property="og:title" content="KL 亲子周末雷达">
+    <meta property="og:description" content="适合 WhatsApp 分享的吉隆坡带娃去处，含 Waze 和 Google Maps 导航。">
+    <title>KL 亲子周末雷达 · WhatsApp</title>
     <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
     <main class="shell">
       <section class="hero">
         <div class="hero-copy">
-          <p class="eyebrow">Kuala Lumpur with kids</p>
-          <h1>KL 亲子周末雷达</h1>
+          <p class="eyebrow">WhatsApp weekend planner</p>
+          <h1>今天带娃去哪儿</h1>
           <p class="intro">
-            把“孩子会不会玩疯、家长会不会崩溃、到底开车还是地铁”放在同一个页面里判断。
+            发到 WhatsApp 群里就能用：按年龄、天气和交通选地方，开车直接跳 Waze 或 Google Maps。
           </p>
         </div>
         <div class="today-card" aria-live="polite">
           <span id="today-label">今天</span>
           <strong id="best-pick">正在加载推荐...</strong>
           <small id="best-reason"></small>
+          <div class="hero-actions">
+            <a id="hero-whatsapp" class="whatsapp-btn" href="#" target="_blank" rel="noreferrer">WhatsApp 分享</a>
+            <a id="hero-map" class="map-btn" href="#" target="_blank" rel="noreferrer">Google Maps</a>
+          </div>
         </div>
       </section>
 
@@ -105,12 +112,12 @@
           </div>
 
           <div class="side-panel">
-            <h2>第一版判断标准</h2>
+            <h2>WhatsApp 部署说明</h2>
             <div class="score-list">
-              <p><strong>轻易度</strong><span>停车/电梯/厕所/餐饮/排队压力</span></p>
-              <p><strong>孩子吸引力</strong><span>互动、动物、动手、运动量</span></p>
-              <p><strong>家长成本</strong><span>是否能坐、是否有空调、是否好撤退</span></p>
-              <p><strong>交通建议</strong><span>门到门优先级，而不是地图距离</span></p>
+              <p><strong>入口</strong><span>部署成 HTTPS 网页，把链接发到 WhatsApp 群或 Status。</span></p>
+              <p><strong>导航</strong><span>Waze 和 Google Maps 用官方 deep link，手机上会直接打开 App 或网页。</span></p>
+              <p><strong>推送</strong><span>主动提醒需 WhatsApp Business Cloud API 和用户 opt-in。</span></p>
+              <p><strong>分享</strong><span>每个地点都生成一段可直接发群的推荐文案。</span></p>
             </div>
           </div>
         </aside>

@@ -1,0 +1,15 @@
+{
+  "deployment": "mobile-web-for-whatsapp",
+  "recommended_hosts": ["Vercel", "Netlify", "Cloudflare Pages", "GitHub Pages"],
+  "entry_url": "https://your-domain.example/",
+  "share_url_format": "https://wa.me/?text={encoded_recommendation}",
+  "navigation": {
+    "waze": "https://waze.com/ul?ll={latitude},{longitude}&navigate=yes&q={encoded_place_name}",
+    "google_maps": "https://www.google.com/maps/search/?api=1&query={encoded_lat_lng_and_place}"
+  },
+  "notifications": {
+    "channel": "WhatsApp Business Cloud API",
+    "requires": ["Meta Business account", "phone_number_id", "permanent access token", "approved message template", "user opt-in"],
+    "suggested_schedule": "Friday 20:00 Asia/Kuala_Lumpur"
+  }
+}

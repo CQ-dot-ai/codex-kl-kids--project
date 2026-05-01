@@ -146,17 +146,30 @@ function eventStatus(event) {
   return "待确认";
 }
 
+function eventAppeal(event) {
+  const fitNote = String(event.fit_note || "")
+    .replace("公开活动源同步结果，出发前建议点来源确认报名和名额。", "")
+    .trim();
+  if (fitNote) return fitNote;
+
+  const title = String(event.title || "").toLowerCase();
+  if (title.includes("baking") || title.includes("cook")) return "雨天也能安心安排，孩子有作品带回家。";
+  if (title.includes("science") || title.includes("robot") || title.includes("stem")) return "适合爱动手、爱提问的孩子，玩中有学习感。";
+  if (title.includes("music") || title.includes("vocal") || title.includes("art")) return "适合想尝试表达和创作的孩子，节奏轻松。";
+  if (title.includes("camp") || title.includes("workshop")) return "适合周末或假期放电，家长安排更省心。";
+  return "适合提前收藏，出发前确认名额、年龄和报名方式。";
+}
+
 function eventItem(event) {
   return `
-    <article class="event-item ${escapeHtml(event.status || "unknown")}">
-      <div>
+    <article class="event-card-slide ${escapeHtml(event.status || "unknown")}">
+      <div class="event-card-top">
         <span>${eventStatus(event)}</span>
-        <h3>${escapeHtml(event.title)}</h3>
+        <a href="${escapeHtml(event.source_url)}" target="_blank" rel="noreferrer">来源</a>
       </div>
-      <p>${escapeHtml(event.date_text || "日期待确认")}</p>
-      <p>${escapeHtml(event.venue || "地点待确认")}</p>
-      <small>${escapeHtml(event.fit_note || "")}</small>
-      <a href="${escapeHtml(event.source_url)}" target="_blank" rel="noreferrer">来源</a>
+      <h3>${escapeHtml(event.title)}</h3>
+      <p class="event-appeal">${escapeHtml(eventAppeal(event))}</p>
+      <p class="event-meta">${escapeHtml(event.date_text || "日期待确认")} · ${escapeHtml(event.venue || "地点待确认")}</p>
     </article>
   `;
 }
@@ -188,8 +201,9 @@ function render() {
   placesGrid.innerHTML = visible.length
     ? visible.map((place) => placeCard(place)).join("")
     : '<p class="empty">当前条件下没有合适地点，放宽一个筛选试试。</p>';
-  eventsList.innerHTML = state.events.length
-    ? state.events.slice(0, 8).map((event) => eventItem(event)).join("")
+  const activeEvents = state.events.filter((event) => event.status !== "past");
+  eventsList.innerHTML = activeEvents.length
+    ? activeEvents.slice(0, 10).map((event) => eventItem(event)).join("")
     : '<p class="empty">暂无活动数据，点击同步获取公开活动源。</p>';
   updateStats(visible);
   updateBestPick(visible);

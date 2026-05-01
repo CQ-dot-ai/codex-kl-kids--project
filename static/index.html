@@ -68,6 +68,17 @@
         </label>
       </section>
 
+      <section class="event-carousel-panel" aria-label="实时活动">
+        <div class="section-head compact">
+          <div>
+            <h2>实时活动</h2>
+            <p id="sync-status">读取本地活动源。</p>
+          </div>
+          <button id="sync-events" type="button">同步</button>
+        </div>
+        <div id="events-list" class="event-carousel"></div>
+      </section>
+
       <section class="quick-stats" aria-label="概览">
         <div>
           <span id="place-count">0</span>
@@ -100,17 +111,6 @@
         </div>
 
         <aside class="side-column">
-          <div class="side-panel">
-            <div class="section-head compact">
-              <div>
-                <h2>实时活动</h2>
-                <p id="sync-status">读取本地活动源。</p>
-              </div>
-              <button id="sync-events" type="button">同步</button>
-            </div>
-            <div id="events-list" class="events-list"></div>
-          </div>
-
           <div class="side-panel">
             <h2>WhatsApp 部署说明</h2>
             <div class="score-list">

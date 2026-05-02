@@ -6,6 +6,10 @@ const deckProgress = document.getElementById("deck-progress");
 const savedList = document.getElementById("saved-list");
 const savedNote = document.getElementById("saved-note");
 const savedWhatsapp = document.getElementById("saved-whatsapp");
+const quickFilterChips = document.getElementById("quick-filter-chips");
+const clearQuickFilters = document.getElementById("clear-quick-filters");
+const rainPlanList = document.getElementById("rain-plan-list");
+const rainPlanWhatsapp = document.getElementById("rain-plan-whatsapp");
 const ageFilter = document.getElementById("age-filter");
 const transportFilter = document.getElementById("transport-filter");
 const weatherFilter = document.getElementById("weather-filter");
@@ -31,7 +35,23 @@ const state = {
   savedPlaces: [],
   skippedPlaces: [],
   history: [],
+  quickFilters: new Set(),
 };
+
+const quickFilters = [
+  { id: "today", label: "今天可去" },
+  { id: "rain", label: "下雨不踩雷" },
+  { id: "indoor", label: "室内放电" },
+  { id: "age-0-3", label: "0-3岁" },
+  { id: "age-4-6", label: "4-6岁" },
+  { id: "age-7-10", label: "7-10岁" },
+  { id: "train", label: "地铁直达" },
+  { id: "car", label: "好停车/开车" },
+  { id: "short", label: "2小时内" },
+  { id: "half", label: "半天刚好" },
+  { id: "stroller", label: "推车友好" },
+  { id: "booking", label: "需要预约" },
+];
 
 function escapeHtml(value) {
   return String(value || "")
@@ -62,6 +82,22 @@ function includesDuration(place, selectedDuration) {
   return selectedDuration === "all" || place.duration_type === selectedDuration;
 }
 
+function includesQuickFilter(place, filterId) {
+  if (filterId === "today") return place.parent_ease >= 4 || place.rain_safe;
+  if (filterId === "rain") return place.rain_safe;
+  if (filterId === "indoor") return place.indoor_level >= 4;
+  if (filterId === "age-0-3") return includesAge(place, "0-3");
+  if (filterId === "age-4-6") return includesAge(place, "4-6");
+  if (filterId === "age-7-10") return includesAge(place, "7-10");
+  if (filterId === "train") return place.best_transport === "train" || (place.transport_options || []).includes("train");
+  if (filterId === "car") return place.best_transport === "car" || (place.transport_options || []).includes("car");
+  if (filterId === "short") return place.duration_type === "short";
+  if (filterId === "half") return place.duration_type === "half";
+  if (filterId === "stroller") return place.parent_ease >= 4 && (place.indoor_level >= 4 || place.rain_safe);
+  if (filterId === "booking") return needsBooking(place);
+  return true;
+}
+
 function filters() {
   return {
     age: ageFilter.value,
@@ -78,6 +114,7 @@ function filteredPlaces() {
     .filter((place) => includesTransport(place, active.transport))
     .filter((place) => includesWeather(place, active.weather))
     .filter((place) => includesDuration(place, active.duration))
+    .filter((place) => Array.from(state.quickFilters).every((filterId) => includesQuickFilter(place, filterId)))
     .sort((a, b) => {
       const scoreA = a.parent_ease + a.kid_fun + a.weather_resilience;
       const scoreB = b.parent_ease + b.kid_fun + b.weather_resilience;
@@ -93,6 +130,47 @@ function transportLabel(place) {
   if (place.best_transport === "train") return "优先地铁";
   if (place.best_transport === "car") return "优先开车";
   return "两者都可";
+}
+
+function needsBooking(place) {
+  const text = `${place.parent_note || ""} ${(place.tags || []).join(" ")}`;
+  return /预约|book|booking|reserve/i.test(text);
+}
+
+function parkingLabel(place) {
+  if (place.best_transport === "train") return "地铁更省心";
+  if (place.best_transport === "car" && place.parent_ease >= 4) return "停车相对稳";
+  if (place.best_transport === "car") return "建议开车但要预留停车时间";
+  return "交通灵活";
+}
+
+function bookingLabel(place) {
+  return needsBooking(place) ? "建议提前预约" : "可先查营业/票务";
+}
+
+function strollerLabel(place) {
+  if (place.parent_ease >= 5) return "推车/低龄较友好";
+  if (place.parent_ease >= 4 && place.indoor_level >= 4) return "家长负担较低";
+  return "家长要多预留体力";
+}
+
+function chineseFamilyNote(place) {
+  if (place.indoor_level >= 4 && place.best_transport === "train") return "适合刚来 KL 的中文家庭，路径清楚、撤退容易。";
+  if (place.best_transport === "car") return "更适合开车家庭，带装备和老人同行会轻松些。";
+  if (place.rain_safe) return "雨天也比较稳，适合作为临时备选。";
+  return "更适合天气好、孩子体力充足的时候安排。";
+}
+
+function pitfallText(place) {
+  if (place.id === "petrosains-klcc") return "周末热门时段容易排队，KLCC 地铁通常比开车省心。";
+  if (place.id === "aquaria-klcc") return "单独去时长偏短，适合搭配 KLCC Park 或商场吃饭。";
+  if (place.id === "kidzania-kl") return "不要临时冲，热门职业排队会明显消耗家长。";
+  if (place.id === "superpark-malaysia") return "体力消耗大，记得防滑袜，低龄孩子别排太满。";
+  if (place.id === "farm-in-the-city") return "正午晒、午后雨风险高，最好安排早上。";
+  if (place.id === "kl-bird-park") return "户外多，带水、防蚊和帽子，下雨直接换室内备选。";
+  if (place.id === "sunway-lagoon") return "装备多且很耗体力，低龄孩子不适合硬撑全天。";
+  if (place.id === "good-times-baking") return "适合低体力日，但热门时段建议提前预约。";
+  return place.parent_note || "出发前确认营业时间、票务和天气。";
 }
 
 function mapQuery(place) {
@@ -113,8 +191,11 @@ function placeShareText(place) {
   return [
     `这个周末可以带娃去：${place.name}`,
     `地点：${place.area}`,
-    `适合玩：${place.recommended_time}`,
+    `适合：${ageLabel(place)}，${place.recommended_time}`,
+    `中文家庭判断：${chineseFamilyNote(place)}`,
     `交通：${transportLabel(place)}，${place.transport_note}`,
+    `预约/停车：${bookingLabel(place)}，${parkingLabel(place)}`,
+    `一句话避坑：${pitfallText(place)}`,
     `家长提示：${place.parent_note}`,
     `Google Maps：${googleMapsUrl(place)}`,
     `Waze：${wazeUrl(place)}`,
@@ -157,9 +238,34 @@ function savedShareText() {
         `${index + 1}. ${place.name}`,
         `地点：${place.area}`,
         `适合：${ageLabel(place)}，${place.recommended_time}`,
-        `家长提示：${place.parent_note}`,
+        `中文家庭判断：${chineseFamilyNote(place)}`,
+        `避坑：${pitfallText(place)}`,
         `Waze：${wazeUrl(place)}`,
         `Google Maps：${googleMapsUrl(place)}`,
+      ].join("\n");
+    }),
+  ].join("\n\n");
+}
+
+function rainPlanPlaces() {
+  return state.places
+    .filter((place) => place.rain_safe || place.indoor_level >= 4)
+    .sort((a, b) => b.parent_ease + b.kid_fun + b.weather_resilience - (a.parent_ease + a.kid_fun + a.weather_resilience))
+    .slice(0, 3);
+}
+
+function rainPlanShareText() {
+  const places = rainPlanPlaces();
+  if (!places.length) return "今天下雨，先收藏带娃去哪儿 KL 的雨天 Plan B。";
+  return [
+    "KL 雨天带娃 Plan B：",
+    ...places.map((place, index) => {
+      return [
+        `${index + 1}. ${place.name}`,
+        `为什么适合：${place.summary}`,
+        `适合：${ageLabel(place)}，${place.recommended_time}`,
+        `避坑：${pitfallText(place)}`,
+        `Waze：${wazeUrl(place)}`,
       ].join("\n");
     }),
   ].join("\n\n");
@@ -185,6 +291,9 @@ function placeCard(place) {
         <p><span>建议玩多久</span><strong>${escapeHtml(place.recommended_time)}</strong></p>
       </div>
       <div class="decision">
+        <p><strong>中文家庭</strong>${escapeHtml(chineseFamilyNote(place))}</p>
+        <p><strong>避坑</strong>${escapeHtml(pitfallText(place))}</p>
+        <p><strong>停车/预约</strong>${escapeHtml(parkingLabel(place))}，${escapeHtml(bookingLabel(place))}</p>
         <p><strong>${transportLabel(place)}</strong>${escapeHtml(place.transport_note)}</p>
         <p><strong>家长提示</strong>${escapeHtml(place.parent_note)}</p>
       </div>
@@ -205,6 +314,7 @@ function deckCardMarkup(place) {
     place.recommended_time,
     weatherLabel(place),
     transportLabel(place),
+    bookingLabel(place),
   ];
   return `
     <article class="swipe-card" data-id="${escapeHtml(place.id)}">
@@ -222,8 +332,11 @@ function deckCardMarkup(place) {
           <p><span>天气稳定</span><strong>${escapeHtml(place.weather_resilience)}/5</strong></p>
         </div>
         <div class="point-summary">
+          <p><strong>中文家庭</strong>${escapeHtml(chineseFamilyNote(place))}</p>
+          <p><strong>停车/预约</strong>${escapeHtml(parkingLabel(place))}，${escapeHtml(bookingLabel(place))}</p>
+          <p><strong>一句话避坑</strong>${escapeHtml(pitfallText(place))}</p>
           <p><strong>交通</strong>${escapeHtml(place.transport_note)}</p>
-          <p><strong>提醒</strong>${escapeHtml(place.parent_note)}</p>
+          <p><strong>家长体力</strong>${escapeHtml(strollerLabel(place))}</p>
         </div>
       </div>
     </article>
@@ -270,7 +383,8 @@ function updateStats(visible) {
   document.getElementById("event-count").textContent = state.events.filter((event) => event.status !== "past").length;
   document.getElementById("easy-count").textContent = state.places.filter((place) => place.parent_ease >= 4).length;
   document.getElementById("rain-count").textContent = state.places.filter((place) => place.rain_safe).length;
-  resultNote.textContent = `当前显示 ${visible.length} 个，按轻易度、孩子吸引力和雨天稳定性排序。`;
+  const quickFilterText = state.quickFilters.size ? `，已启用 ${state.quickFilters.size} 个快捷筛选` : "";
+  resultNote.textContent = `当前显示 ${visible.length} 个${quickFilterText}，按轻易度、孩子吸引力和雨天稳定性排序。`;
 }
 
 function updateBestPick(visible) {
@@ -390,6 +504,37 @@ function renderSavedList() {
   });
 }
 
+function renderQuickFilters() {
+  quickFilterChips.innerHTML = quickFilters
+    .map((filter) => {
+      const isActive = state.quickFilters.has(filter.id);
+      return `<button class="quick-chip ${isActive ? "active" : ""}" type="button" data-filter-id="${escapeHtml(filter.id)}">${escapeHtml(filter.label)}</button>`;
+    })
+    .join("");
+}
+
+function renderRainPlan() {
+  const places = rainPlanPlaces();
+  rainPlanWhatsapp.href = whatsappShareUrl(rainPlanShareText());
+  rainPlanList.innerHTML = places.length
+    ? places
+        .map((place) => {
+          return `
+            <article class="rain-plan-item">
+              <div>
+                <p class="area">${escapeHtml(place.area)}</p>
+                <h3>${escapeHtml(place.name)}</h3>
+                <p>${escapeHtml(place.summary)}</p>
+                <small>${escapeHtml(pitfallText(place))}</small>
+              </div>
+              <a href="${escapeHtml(wazeUrl(place))}" target="_blank" rel="noopener noreferrer">Waze</a>
+            </article>
+          `;
+        })
+        .join("")
+    : '<p class="empty">暂无雨天备选，先放宽筛选条件。</p>';
+}
+
 function resetDeck(visible) {
   state.deckItems = visible;
   state.currentIndex = 0;
@@ -479,9 +624,11 @@ function attachSwipeHandlers(card) {
 
 function render() {
   const visible = filteredPlaces();
+  renderQuickFilters();
   resetDeck(visible);
   renderDeck();
   renderSavedList();
+  renderRainPlan();
   placesGrid.innerHTML = visible.length
     ? visible.map((place) => placeCard(place)).join("")
     : '<p class="empty">当前条件下没有合适地点，放宽一个筛选试试。</p>';
@@ -537,10 +684,26 @@ resetFilters.addEventListener("click", () => {
   transportFilter.value = "all";
   weatherFilter.value = "all";
   durationFilter.value = "all";
+  state.quickFilters.clear();
   render();
 });
 
 syncEvents.addEventListener("click", syncLiveEvents);
+quickFilterChips.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-filter-id]");
+  if (!button) return;
+  const filterId = button.getAttribute("data-filter-id");
+  if (state.quickFilters.has(filterId)) {
+    state.quickFilters.delete(filterId);
+  } else {
+    state.quickFilters.add(filterId);
+  }
+  render();
+});
+clearQuickFilters.addEventListener("click", () => {
+  state.quickFilters.clear();
+  render();
+});
 undoCard.addEventListener("click", undoLastAction);
 skipCard.addEventListener("click", () => actOnCurrent("skip"));
 saveCard.addEventListener("click", () => actOnCurrent("save"));

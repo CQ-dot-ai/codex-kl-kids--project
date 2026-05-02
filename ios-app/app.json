@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "带娃去哪儿 KL",
+    "slug": "daiwa-qunaer-kl",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "scheme": "daiwaqunaerkl",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.codexklkids.daiwaqunaerkl",
+      "infoPlist": {
+        "LSApplicationQueriesSchemes": ["waze", "comgooglemaps", "whatsapp"]
+      }
+    },
+    "android": {
+      "package": "com.codexklkids.daiwaqunaerkl"
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": []
+  }
+}

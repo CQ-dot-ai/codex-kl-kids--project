@@ -4,19 +4,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#246b54">
-    <meta property="og:title" content="KL 亲子周末雷达">
+    <meta property="og:title" content="带娃去哪儿 KL">
     <meta property="og:description" content="适合 WhatsApp 分享的吉隆坡带娃去处，含 Waze 和 Google Maps 导航。">
-    <title>KL 亲子周末雷达 · WhatsApp</title>
+    <title>带娃去哪儿 KL · WhatsApp</title>
     <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
     <main class="shell">
       <section class="hero">
         <div class="hero-copy">
-          <p class="eyebrow">WhatsApp weekend planner</p>
+          <p class="eyebrow">带娃去哪儿 KL</p>
           <h1>今天带娃去哪儿</h1>
           <p class="intro">
-            发到 WhatsApp 群里就能用：按年龄、天气和交通选地方，开车直接跳 Waze 或 Google Maps。
+            左右滑快速筛掉不合适的选择，3 分钟留下本周末可以执行的带娃清单。
           </p>
         </div>
         <div class="today-card" aria-live="polite">
@@ -24,8 +24,8 @@
           <strong id="best-pick">正在加载推荐...</strong>
           <small id="best-reason"></small>
           <div class="hero-actions">
-            <a id="hero-whatsapp" class="whatsapp-btn" href="#" target="_blank" rel="noreferrer">WhatsApp 分享</a>
-            <a id="hero-map" class="map-btn" href="#" target="_blank" rel="noreferrer">Google Maps</a>
+            <a id="hero-whatsapp" class="whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer">WhatsApp 分享</a>
+            <a id="hero-map" class="map-btn" href="#" target="_blank" rel="noopener noreferrer">Google Maps</a>
           </div>
         </div>
       </section>
@@ -66,6 +66,32 @@
             <option value="full">一整天</option>
           </select>
         </label>
+      </section>
+
+      <section class="deck-panel" aria-label="滑卡推荐">
+        <div class="deck-head">
+          <div>
+            <p class="eyebrow">3 分钟决策台</p>
+            <h2>右滑加入本周末清单，左滑跳过</h2>
+          </div>
+          <div class="deck-progress" id="deck-progress">0 / 0</div>
+        </div>
+
+        <div class="deck-stage">
+          <div id="deck-card" class="deck-card" aria-live="polite"></div>
+          <div id="deck-feedback" class="deck-feedback" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="saved-panel" aria-label="本周末清单">
+        <div class="section-head compact">
+          <div>
+            <h2>本周末清单</h2>
+            <p id="saved-note">右滑喜欢的地点会出现在这里。</p>
+          </div>
+          <a id="saved-whatsapp" class="action primary muted-action" href="#" target="_blank" rel="noopener noreferrer">分享清单</a>
+        </div>
+        <div id="saved-list" class="saved-list"></div>
       </section>
 
       <section class="event-carousel-panel" aria-label="实时活动">
@@ -123,6 +149,17 @@
         </aside>
       </section>
     </main>
+    <nav class="fixed-deck-footer" aria-label="当前卡片操作">
+      <button id="undo-card" class="round-action" type="button" disabled>撤回</button>
+      <button id="skip-card" class="round-action danger" type="button">不适合</button>
+      <div class="footer-links">
+        <a id="current-waze" href="#" target="_blank" rel="noopener noreferrer">Waze</a>
+        <a id="current-map" href="#" target="_blank" rel="noopener noreferrer">Google</a>
+        <a id="current-whatsapp" href="#" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      </div>
+      <button id="save-card" class="round-action save" type="button">想去</button>
+      <button id="focus-saved" class="round-action" type="button">清单 <span id="saved-count">0</span></button>
+    </nav>
     <script src="/app.js"></script>
   </body>
 </html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7f3ea">
+    <meta property="og:title" content="带娃去哪儿 KL · iOS MVP">
+    <meta property="og:description" content="在线体验 iOS 版带娃滑卡、Waze/Google Maps 导航和 WhatsApp 分享。">
+    <title>带娃去哪儿 KL · iOS MVP</title>
+    <link rel="stylesheet" href="/ios/styles.css">
+  </head>
+  <body>
+    <main class="preview-shell">
+      <section class="intro">
+        <p class="eyebrow">iOS MVP 在线预览</p>
+        <h1>带娃去哪儿 KL</h1>
+        <p>像 App 一样滑卡选周末安排。右滑想去，左滑跳过，直接打开 Waze / Google Maps，并可 WhatsApp 分享给家人。</p>
+        <div class="intro-actions">
+          <a href="/" class="secondary-link">返回网页版</a>
+          <a id="open-current-whatsapp-top" href="#" target="_blank" rel="noopener noreferrer" class="primary-link">分享当前卡片</a>
+        </div>
+      </section>
+
+      <section class="phone-frame" aria-label="iOS App MVP 预览">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <header class="app-header">
+            <div>
+              <p>吉隆坡 / PJ</p>
+              <h2>今天带娃去哪儿</h2>
+            </div>
+            <button id="clear-filters" type="button">重置</button>
+          </header>
+
+          <nav id="filter-chips" class="filter-chips" aria-label="快捷筛选"></nav>
+
+          <section class="status-strip">
+            <div>
+              <span id="deck-progress">0 / 0</span>
+              <small>右滑想去，左滑跳过</small>
+            </div>
+            <button id="undo-card" type="button" disabled>撤回</button>
+          </section>
+
+          <section class="deck-stage">
+            <article id="place-card" class="place-card" aria-live="polite"></article>
+            <p id="feedback" class="feedback" aria-live="polite"></p>
+          </section>
+
+          <section class="saved-sheet">
+            <div class="sheet-head">
+              <h3>本周末清单</h3>
+              <a id="share-saved" href="#" target="_blank" rel="noopener noreferrer">分享</a>
+            </div>
+            <div id="saved-list" class="saved-list"></div>
+          </section>
+
+          <section class="events-sheet">
+            <div class="sheet-head">
+              <h3>实时活动</h3>
+              <small id="event-count">同步中</small>
+            </div>
+            <div id="events-list" class="events-list"></div>
+          </section>
+        </div>
+
+        <footer class="app-footer">
+          <button id="skip-card" type="button">不适合</button>
+          <button id="save-card" type="button" class="save">想去</button>
+          <a id="open-waze" href="#" target="_blank" rel="noopener noreferrer">Waze</a>
+          <a id="open-google" href="#" target="_blank" rel="noopener noreferrer">Google</a>
+          <a id="open-whatsapp" href="#" target="_blank" rel="noopener noreferrer">分享</a>
+        </footer>
+      </section>
+    </main>
+    <script src="/ios/app.js"></script>
+  </body>
+</html>
